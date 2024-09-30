@@ -1,4 +1,5 @@
 # Define the RC class for multiple linear regression
+library(ggplot2)
 LinRegRC <- setRefClass(
   "LinRegRC",  # Class name
   fields = list(
@@ -119,7 +120,7 @@ data(iris)
 model <- LinRegRC$new(formula = Petal.Length ~ Species, data = iris)
 model$plottt()
 
-library(ggplot2)
+
 
 
 
