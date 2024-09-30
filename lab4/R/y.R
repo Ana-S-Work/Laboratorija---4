@@ -1,5 +1,4 @@
 # Define the RC class for multiple linear regression
-library(ggplot2)
 LinRegRC <- setRefClass(
   "LinRegRC",  # Class name
   fields = list(
@@ -88,7 +87,7 @@ LinRegRC <- setRefClass(
         Std_Residuals = sqrt(abs(standardized_residuals))
       ), aes(x = Fitted, y = Std_Residuals)) +
         geom_point(color = "blue") +
-        geom_smooth(se = FALSE, color = "red", method = "loess") +
+        geom_smooth(se = FALSE, color = "red", method = "lm") +
         labs(title = "Scale-Location Plot", x = "Fitted Values", y = "Sqrt(|Standardized Residuals|)") +
         theme_minimal()
       
@@ -120,7 +119,7 @@ data(iris)
 model <- LinRegRC$new(formula = Petal.Length ~ Species, data = iris)
 model$plottt()
 
-
+library(ggplot2)
 
 
 
