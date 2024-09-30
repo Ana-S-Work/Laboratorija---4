@@ -66,6 +66,35 @@ LinRegRC <- setRefClass(
       print(coef_table)
       cat("\nResidual standard error:", sqrt(residual_variance), "on", df_residual, "degrees of freedom\n")
     },
+    # Method to plot residuals vs fitted and scale-location plot
+    plot = function() {
+      # Calculate standardized residuals
+      standardized_residuals <- residuals / sqrt(residual_variance)
+      
+      # Residuals vs Fitted values plot
+      residuals_vs_fitted_plot <- ggplot(data = data.frame(
+        Fitted = as.vector(fitted_values),
+        Residuals = as.vector(residuals)
+      ), aes(x = Fitted, y = Residuals)) +
+        geom_point(color = "blue") +
+        geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+        labs(title = "Residuals vs Fitted Values", x = "Fitted Values", y = "Residuals") +
+        theme_minimal()
+      
+      # Scale-Location plot (standardized residuals vs fitted values)
+      scale_location_plot <- ggplot(data = data.frame(
+        Fitted = as.vector(fitted_values),
+        Std_Residuals = sqrt(abs(standardized_residuals))
+      ), aes(x = Fitted, y = Std_Residuals)) +
+        geom_point(color = "blue") +
+        geom_smooth(se = FALSE, color = "red", method = "loess") +
+        labs(title = "Scale-Location Plot", x = "Fitted Values", y = "Sqrt(|Standardized Residuals|)") +
+        theme_minimal()
+      
+      # Display both plots
+      print(residuals_vs_fitted_plot)
+      print(scale_location_plot)
+    },
     printtt = function() {
       cat("Call:\n")
       print(formula)
@@ -85,7 +114,12 @@ LinRegRC <- setRefClass(
 )
 
 
-data(iris)
 
-model <- LinRegRC$new(formula = Petal.Length~Species, data = iris)
-model$printtt()
+data(iris)
+model <- LinRegRC$new(formula = Petal.Length ~ Species, data = iris)
+model$plot()
+
+library(ggplot2)
+
+
+
