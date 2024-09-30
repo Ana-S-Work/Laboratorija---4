@@ -1,3 +1,5 @@
+library(ggplot2)
+
 # Define the RC class for multiple linear regression
 LinRegRC <- setRefClass(
   "LinRegRC",  # Class name
@@ -10,7 +12,8 @@ LinRegRC <- setRefClass(
     var_coefficients = "matrix",  # Variance-covariance matrix of the coefficients
     p_values = "numeric",     # P-values of the coefficients (numeric, not matrix)
     df_residual = "numeric",  # Degrees of freedom for residuals
-    residual_variance = "numeric"  # Estimate of variance of residuals
+    residual_variance = "numeric",  # Estimate of variance of residuals
+    t_values = "matrix"
   ),
   
   methods = list(
@@ -48,10 +51,10 @@ LinRegRC <- setRefClass(
       se_beta <- sqrt(diag(var_coefficients))
       
       # t-values for the coefficients
-      t_values <- coefficients / se_beta
+      t_values <<- coefficients / se_beta
       
       # Calculate p-values based on the t-distribution
-      p_values_temp <- 2 * (1 - pt(abs(t_values), df_residual))
+      p_values_temp <- 2 * (pt(abs(t_values), df_residual, lower.tail = FALSE))
       
       # Store p-values as numeric
       p_values <<- as.numeric(p_values_temp)
@@ -62,7 +65,7 @@ LinRegRC <- setRefClass(
       cat("Call:\n")
       print(formula)
       cat("\nCoefficients:\n")
-      coef_table <- cbind(Estimate = coefficients, "Std. Error" = sqrt(diag(var_coefficients)), "p-value" = p_values)
+      coef_table <- cbind(Estimate = coefficients, "Std. Error" = sqrt(diag(var_coefficients)), "t-value" = t_values, "p-value" = p_values)
       print(coef_table)
       cat("\nResidual standard error:", sqrt(residual_variance), "on", df_residual, "degrees of freedom\n")
     },
@@ -87,7 +90,7 @@ LinRegRC <- setRefClass(
         Std_Residuals = sqrt(abs(standardized_residuals))
       ), aes(x = Fitted, y = Std_Residuals)) +
         geom_point(color = "blue") +
-        geom_smooth(se = FALSE, color = "red", method = "lm") +
+        geom_smooth(se = FALSE, color = "red", method = "loess") +
         labs(title = "Scale-Location Plot", x = "Fitted Values", y = "Sqrt(|Standardized Residuals|)") +
         theme_minimal()
       
@@ -95,18 +98,24 @@ LinRegRC <- setRefClass(
       print(residuals_vs_fitted_plot)
       print(scale_location_plot)
     },
+    coef = function() {
+      # Create a named vector for more precise control over print formatting
+      coef_names <- colnames(model.matrix(formula, data))
+      coefs <- setNames(as.vector(coefficients), coef_names)
+      return(coefs)
+    },
     printtt = function() {
       cat("Call:\n")
       print(formula)
       cat("Coefficients:\n")
-      # Create a named vector for more precise control over print formatting
-      coef_names <- colnames(model.matrix(formula, data))
-      coefs <- setNames(as.vector(coefficients), coef_names)
-      print(coefs, digits = 2)
+      print(coef())
+    },
+    resid = function(){
+      return(residuals)
     },
     
     # Method to predict new values based on new data
-    predict = function(newdata) {
+    pred = function(newdata) {
       X_new <- model.matrix(formula, newdata)  # Create design matrix for new data
       return(X_new %*% coefficients)           # Return predicted values
     }
@@ -117,9 +126,12 @@ LinRegRC <- setRefClass(
 
 data(iris)
 model <- LinRegRC$new(formula = Petal.Length ~ Species, data = iris)
-model$plottt()
+model$printtt()
+model$resid()
+model$pred()
+model$coef()
+model$summary()
 
-library(ggplot2)
-
+print(iris)
 
 
