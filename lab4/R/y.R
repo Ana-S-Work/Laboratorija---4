@@ -66,6 +66,15 @@ LinRegRC <- setRefClass(
       print(coef_table)
       cat("\nResidual standard error:", sqrt(residual_variance), "on", df_residual, "degrees of freedom\n")
     },
+    printtt = function() {
+      cat("Call:\n")
+      print(formula)
+      cat("Coefficients:\n")
+      # Create a named vector for more precise control over print formatting
+      coef_names <- colnames(model.matrix(formula, data))
+      coefs <- setNames(as.vector(coefficients), coef_names)
+      print(coefs, digits = 2)
+    },
     
     # Method to predict new values based on new data
     predict = function(newdata) {
@@ -75,12 +84,8 @@ LinRegRC <- setRefClass(
   )
 )
 
-# Load the mtcars dataset
-data(mtcars)
 
-# Create an instance of the LinRegRC class
-model <- LinRegRC$new(formula = mpg ~ wt + hp, data = mtcars)
+data(iris)
 
-# Display the summary of the model
-model$summary()
-
+model <- LinRegRC$new(formula = Petal.Length~Species, data = iris)
+model$printtt()
