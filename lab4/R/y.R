@@ -67,7 +67,7 @@ LinRegRC <- setRefClass(
       cat("\nResidual standard error:", sqrt(residual_variance), "on", df_residual, "degrees of freedom\n")
     },
     # Method to plot residuals vs fitted and scale-location plot
-    plot = function() {
+    plottt = function() {
       # Calculate standardized residuals
       standardized_residuals <- residuals / sqrt(residual_variance)
       
@@ -117,7 +117,7 @@ LinRegRC <- setRefClass(
 
 data(iris)
 model <- LinRegRC$new(formula = Petal.Length ~ Species, data = iris)
-model$plot()
+model$plottt()
 
 library(ggplot2)
 
