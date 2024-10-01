@@ -1,3 +1,28 @@
+
+#' LinRegRC: A Reference Class for Multiple Linear Regression
+#'
+#' This class provides a reference implementation of multiple linear regression.
+#' It contains methods for fitting the model, calculating residuals, and plotting.
+#'
+#' @field formula A formula object for the model.
+#' @field data A data frame used for the regression analysis.
+#' @field coefficients A matrix of the estimated coefficients.
+#' @field fitted_values A matrix of the predicted values.
+#' @field residuals A matrix of the residuals (actual - predicted).
+#' @field var_coefficients A matrix of the variance-covariance matrix of the coefficients.
+#' @field p_values A numeric vector of p-values of the coefficients.
+#' @field df_residual Degrees of freedom for residuals.
+#' @field residual_variance A numeric value representing the variance of the residuals.
+#' 
+#' @return An object of class `LinRegRC`.
+#' 
+#' @examples
+#' # Create a new LinRegRC object
+#' model <- LinRegRC$new(Petal.Length ~ Species, data = iris)
+#' model$summary()
+#'
+#' @export
+
 library(ggplot2)
 
 # Define the RC class for multiple linear regression
