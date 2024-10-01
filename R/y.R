@@ -1,9 +1,6 @@
 
 
-#' LinRegRC: A Reference Class for Multiple Linear Regression
-#'
-#' This class provides a reference implementation of multiple linear regression.
-#' It contains methods for fitting the model, calculating residuals, and plotting.
+#' @title LinRegRC: A Reference Class for Multiple Linear Regression. This class provides a reference implementation of multiple linear regression.It contains methods for fitting the model, calculating residuals, and plotting.
 #'
 #' @field formula A formula object for the model.
 #' @field data A data frame used for the regression analysis.
@@ -22,12 +19,13 @@
 #' model <- LinRegRC$new(Petal.Length ~ Species, data = iris)
 #' model$summary()
 #'
+#' @name LinRegRC
 #' @export LinRegRC
 
 library(ggplot2)
 
-#'@name LinRegRC
-#'
+
+
 # Define the RC class for multiple linear regression
 LinRegRC <- setRefClass(
   "LinRegRC",  # Class name
