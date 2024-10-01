@@ -1,0 +1,9 @@
+Package: lab4
+Type: Package
+Title: This package will be solving problems involving MLR
+Version: 1.0
+Date: 2024-09-26
+Author: c(person("Sofia", email="jknsfjs"), person("Ana", email="hbsdjh"))
+Maintainer: Who to complain to <sofia16@live.se>
+Description: More about what it does (maybe more than one line)
+License: MIT + file LICENSE
