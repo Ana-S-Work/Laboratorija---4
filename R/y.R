@@ -131,6 +131,7 @@ LinRegRC <- setRefClass(
       return(coefs)
     },
     printtt = function() {
+      cat("Call:\n")
       print(formula)
       cat("Coefficients:\n")
       print(coef())
