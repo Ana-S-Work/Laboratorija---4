@@ -132,11 +132,8 @@ LinRegRC <- setRefClass(
     },
     printtt = function() {
       cat("Call:\n")
-<<<<<<< HEAD
       print(formula)
-=======
       cat(deparse(formula), "\n")  # Convert formula to string, no environment printing
->>>>>>> 206e8d830cf5a952533b28f65b6043daf85004ff
       cat("Coefficients:\n")
       print(coef())
     },
