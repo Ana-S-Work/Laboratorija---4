@@ -1,4 +1,5 @@
 
+
 #' LinRegRC: A Reference Class for Multiple Linear Regression
 #'
 #' This class provides a reference implementation of multiple linear regression.
@@ -21,10 +22,12 @@
 #' model <- LinRegRC$new(Petal.Length ~ Species, data = iris)
 #' model$summary()
 #'
-#' @export
+#' @export LinRegRC
 
 library(ggplot2)
 
+#'@name LinRegRC
+#'
 # Define the RC class for multiple linear regression
 LinRegRC <- setRefClass(
   "LinRegRC",  # Class name
@@ -137,7 +140,7 @@ LinRegRC <- setRefClass(
     },
     resid = function(){
       return(residuals)
-    },
+    } ,
     
     # Method to predict new values based on new data
     pred = function(newdata) {
@@ -153,7 +156,7 @@ data(iris)
 model <- LinRegRC$new(formula = Petal.Length ~ Species, data = iris)
 model$printtt()
 model$resid()
-model$pred()
+#model$pred()
 model$coef()
 model$summary()
 
