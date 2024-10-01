@@ -17,7 +17,7 @@ test_that("class is correct", {
 })
 
 test_that("printtt() method works", {
-  linreg_mod <- LinRegRC$new(Petal.Length~Sepal.Width+Sepal.Length, data=iris)
+  linreg_mod <- LinRegRC$new(formula = Petal.Length~Sepal.Width+Sepal.Length, data=iris)
   
   expect_output(linreg_mod$printtt(),"LinRegRC\\(formula = Petal\\.Length ~ Sepal\\.Width \\+ Sepal\\.Length, data = iris\\)")
   expect_output(linreg_mod$printtt(),"( )*\\(Intercept\\)( )*Sepal\\.Width( )*Sepal\\.Length")
