@@ -9,4 +9,6 @@ Description: More about what it does (maybe more than one line)
 License: MIT + file LICENSE
 RoxygenNote: 7.3.2
 Encoding: UTF-8
-
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
