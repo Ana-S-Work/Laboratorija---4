@@ -89,11 +89,12 @@ LinRegRC <- setRefClass(
     # Method to print the summary of the regression model
     summary = function() {
       cat("Call:\n")
-      print(formula)
+      #print(formula)
       cat("\nCoefficients:\n")
-      coef_table <- cbind(Estimate = coefficients, "Std. Error" = sqrt(diag(var_coefficients)), "t-value" = t_values, "p-value" = p_values)
-      print(coef_table)
-      cat("\nResidual standard error:", sqrt(residual_variance), "on", df_residual, "degrees of freedom\n")
+      #coef_table <- cbind(Estimate = coefficients, "Std. Error" = sqrt(diag(var_coefficients)), "t-value" = t_values, "p-value" = p_values)
+      #print(coef_table)
+      cat("Estimate", coefficients, "Std. Error", sqrt(diag(var_coefficients)),"t value",t_values,"Pr(>|t|)", p_values, "\nResidual standard error", sqrt(residual_variance), "on", df_residual, "degrees of freedom\n")
+      #cat("\nResidual standard error:", sqrt(residual_variance), "on", df_residual, "degrees of freedom\n")
     },
     # Method to plot residuals vs fitted and scale-location plot
     plottt = function() {
@@ -132,6 +133,10 @@ LinRegRC <- setRefClass(
     },
     printtt = function() {
       cat("Call:\n")
+<<<<<<< HEAD
+=======
+      print(formula)
+>>>>>>> 5df69cffc915539073bc852f85bbbdcd7e80501b
       cat(deparse(formula), "\n")  # Convert formula to string, no environment printing
       cat("Coefficients:\n")
       print(coef())
@@ -150,14 +155,14 @@ LinRegRC <- setRefClass(
 
 
 
-data(iris)
-model <- LinRegRC$new(formula = Petal.Length ~ Species, data = iris)
-model$printtt()
-model$resid()
-#model$pred()
-model$coef()
-model$summary()
-
-print(iris)
+# data(iris)
+# model <- LinRegRC$new(formula = Petal.Length ~ Species, data = iris)
+# model$printtt()
+# model$resid()
+# model$pred()
+# model$coef()
+# model$summary()
+# 
+# print(iris)
 
 
