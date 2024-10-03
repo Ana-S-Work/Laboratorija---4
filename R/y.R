@@ -141,9 +141,8 @@ LinRegRC <- setRefClass(
     } ,
     
     # Method to predict new values based on new data
-    pred = function(newdata) {
-      X_new <- model.matrix(formula, newdata)  # Create design matrix for new data
-      return(X_new %*% coefficients)           # Return predicted values
+    pred = function() {
+      return(fitted_values)           # Return predicted values
     }
   )
 )
