@@ -46,6 +46,7 @@ LinRegRC <- setRefClass(
   methods = list(
     # Initialize method (called when a new object is created)
     initialize = function(formula, data) {
+      data_name <<- deparse(substitute(data))
       formula <<- formula
       data <<- data
       .self$fit_model()  # Call the fit_model method to fit the model
