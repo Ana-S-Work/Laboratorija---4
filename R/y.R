@@ -128,15 +128,10 @@ LinRegRC <- setRefClass(
     
       # Add stars for p-values in the table
       signif <- apply(coef_table[, "p-value", drop = FALSE], 1, significance_stars)
-      #browser()   
-      # Adjust printout format for expected regex
-      coef_table_print <- cbind(
-        Estimate = sprintf("% .6f", coef_table[, "Estimate"]),
-        `Std. Error` = sprintf("% .6f", coef_table[, "Std. Error"]),
-        `t-value` = sprintf("% .6f", coef_table[, "t-value"]),
-        `p-value` = sprintf("% .6e", coef_table[, "p-value"]),
-        ` ` = signif
-      )
+      
+      coef_table_print <- cbind(coef_table, signif)
+      colnames(coef_table_print)[ncol(coef_table_print)] <- ""
+      
       
       # Print the coefficient table
       cat("\nCoefficients:\n")
@@ -214,7 +209,7 @@ model <- LinRegRC$new(formula = Petal.Length ~ Species, data = iris)
 # model$coef()
  model$summary()
 # modt <- lm (formula = Petal.Length ~ Species, data = iris)
-# summary(modt)
+#summary(modt)
 #print(iris)
 
 
