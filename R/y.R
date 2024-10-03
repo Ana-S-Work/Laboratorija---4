@@ -176,7 +176,7 @@ LinRegRC <- setRefClass(
     printtt = function() {
       cat("Call:\n")
       cat(deparse(formula), "\n")  # Convert formula to string, no environment printing
-      cat("Coefficients:\n")
+      cat("\n\nCoefficients:\n")
       print(coef())
     },
     resid = function(){
