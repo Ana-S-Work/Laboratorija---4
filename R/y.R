@@ -174,10 +174,16 @@ LinRegRC <- setRefClass(
       return(coefs)
     },
     printtt = function() {
-      cat("Call:\n")
-      cat(deparse(formula), "\n")  # Convert formula to string, no environment printing
-      cat("Coefficients:\n")
+      # cat("Call:\n")
+      # print(formula)
+      # cat(deparse(formula), "\n")  # Convert formula to string, no environment printing
+      # cat("Coefficients:\n")
+      # print(coef())
+      cat(paste0("LinRegRC(formula = ",deparse(formula), ", data = ", data_name, ")")) 
+      cat("\n\nCoefficients:\n")
       print(coef())
+      #cat(names(coefficients))
+      #cat(paste0("\n", coefficients))
     },
     resid = function(){
       return(residuals)
