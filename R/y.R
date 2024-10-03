@@ -192,9 +192,9 @@ LinRegRC <- setRefClass(
     } ,
     
     # Method to predict new values based on new data
-    pred = function(newdata) {
-      X_new <- model.matrix(formula, newdata)  # Create design matrix for new data
-      return(X_new %*% coefficients)           # Return predicted values
+    pred = function() {
+       # Create design matrix for new data
+      return(fitted_values)           # Return predicted values
     }
   )
 )
@@ -205,9 +205,9 @@ data(iris)
 model <- LinRegRC$new(formula = Petal.Length ~ Species, data = iris)
  #model$printtt()
 # model$resid()
-# model$pred()
+model$pred()
 # model$coef()
- model$summary()
+ #model$summary()
 # modt <- lm (formula = Petal.Length ~ Species, data = iris)
 #summary(modt)
 #print(iris)
