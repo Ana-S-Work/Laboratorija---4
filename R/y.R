@@ -30,6 +30,7 @@ library(ggplot2)
 LinRegRC <- setRefClass(
   "LinRegRC",  # Class name
   fields = list(
+    data_name = "character",
     formula = "formula",      # Formula object for the model
     data = "data.frame",      # Data used for the regression
     coefficients = "matrix",  # Coefficients (beta estimates)
