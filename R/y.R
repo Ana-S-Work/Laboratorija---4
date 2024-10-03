@@ -30,7 +30,6 @@ library(ggplot2)
 LinRegRC <- setRefClass(
   "LinRegRC",  # Class name
   fields = list(
-    data_name = "character",
     formula = "formula",      # Formula object for the model
     data = "data.frame",      # Data used for the regression
     coefficients = "matrix",  # Coefficients (beta estimates)
@@ -46,7 +45,6 @@ LinRegRC <- setRefClass(
   methods = list(
     # Initialize method (called when a new object is created)
     initialize = function(formula, data) {
-      data_name <<- deparse(substitute(data))
       formula <<- formula
       data <<- data
       .self$fit_model()  # Call the fit_model method to fit the model
@@ -125,7 +123,7 @@ LinRegRC <- setRefClass(
                )
         )
       }
-    
+      
       # Add stars for p-values in the table
       signif <- apply(coef_table[, "p-value", drop = FALSE], 1, significance_stars)
       
@@ -176,25 +174,18 @@ LinRegRC <- setRefClass(
       return(coefs)
     },
     printtt = function() {
-      # cat("Call:\n")
-      # print(formula)
-      # cat(deparse(formula), "\n")  # Convert formula to string, no environment printing
-      # cat("Coefficients:\n")
-      # print(coef())
-      cat(paste0("LinRegRC(formula = ",deparse(formula), ", data = ", data_name, ")")) 
-      cat("\n\nCoefficients:\n")
+      cat("Call:\n")
+      cat(deparse(formula), "\n")  # Convert formula to string, no environment printing
+      cat("Coefficients:\n")
       print(coef())
-      #cat(names(coefficients))
-      #cat(paste0("\n", coefficients))
     },
     resid = function(){
       return(residuals)
     } ,
     
     # Method to predict new values based on new data
-    pred = function(newdata) {
-      X_new <- model.matrix(formula, newdata)  # Create design matrix for new data
-      return(X_new %*% coefficients)           # Return predicted values
+    pred = function() {
+      return(fitted_values)           # Return predicted values
     }
   )
 )
@@ -203,13 +194,16 @@ LinRegRC <- setRefClass(
 
 data(iris)
 model <- LinRegRC$new(formula = Petal.Length ~ Species, data = iris)
- #model$printtt()
-# model$resid()
-# model$pred()
-# model$coef()
- model$summary()
-# modt <- lm (formula = Petal.Length ~ Species, data = iris)
-#summary(modt)
-#print(iris)
+model$printtt()
+model$resid()
+#model$pred()
+model$coef()
+model$summary()
 
 
+
+data(iris)
+mod_object <- lm(Petal.Length~Sepal.Width+Sepal.Length, data=iris)
+print(mod_object)
+
+summary(mod_object)
