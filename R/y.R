@@ -14,6 +14,7 @@
 #' 
 #' @return An object of class `LinRegRC`.
 #' 
+#' @import ggplot2
 #' @examples
 #' # Create a new LinRegRC object
 #' model <- LinRegRC$new(Petal.Length ~ Species, data = iris)
