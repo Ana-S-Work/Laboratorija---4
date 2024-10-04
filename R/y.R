@@ -91,25 +91,11 @@ LinRegRC <- setRefClass(
     
     # Method to print the summary of the regression model
     summary = function() {
-      # cat("Call:\n")
-      # print(formula)
-      # cat("\nCoefficients:\n")
-      # coef_table <- cbind(Estimate = coefficients, "Std. Error" = sqrt(diag(var_coefficients)), "t-value" = t_values, "p-value" = p_values)
-      # print(coef_table)
-      # cat("\nResidual standard error:", sqrt(residual_variance), "on", df_residual, "degrees of freedom\n")
       
       # Print the call (formula)
       cat("Call:\n")
       print(formula)
       
-      # Create the coefficient table
-      # coef_table <- cbind(
-      #   "Estimate" = coefficients,
-      #   "Std. Error" = sqrt(diag(var_coefficients)),
-      #   "t-value" = t_values,
-      #   "p-value" = p_values
-      # )
-      #coef_table <- data.frame(Estimate = coefficients, `Std. Error` =, )
       
       coef_table <- cbind(
         Estimate = as.vector(coefficients),
@@ -177,16 +163,9 @@ LinRegRC <- setRefClass(
       return(coefs)
     },
     printtt = function() {
-      # cat("Call:\n")
-      # print(formula)
-      # cat(deparse(formula), "\n")  # Convert formula to string, no environment printing
-      # cat("Coefficients:\n")
-      # print(coef())
       cat(paste0("LinRegRC(formula = ",deparse(formula), ", data = ", data_name, ")")) 
       cat("\n\nCoefficients:\n")
       print(coef())
-      #cat(names(coefficients))
-      #cat(paste0("\n", coefficients))
     },
     resid = function(){
       return(residuals)
@@ -200,19 +179,3 @@ LinRegRC <- setRefClass(
 )
 
 
-
-data(iris)
-model <- LinRegRC$new(formula = Petal.Length ~ Species, data = iris)
-model$printtt()
-model$resid()
-model$pred()
-model$coef()
-model$summary()
-
-
-
-data(iris)
-mod_object <- lm(Petal.Length~Sepal.Width+Sepal.Length, data=iris)
-print(mod_object)
-
-summary(mod_object)
