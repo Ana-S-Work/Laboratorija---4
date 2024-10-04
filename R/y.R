@@ -161,7 +161,8 @@ LinRegRC <- setRefClass(
         Std_Residuals = sqrt(abs(standardized_residuals))
       ), aes(x = Fitted, y = Std_Residuals)) +
         geom_point(color = "blue") +
-        geom_smooth(se = FALSE, color = "red", method = "loess") +
+        stat_summary(fun = median, geom = "line", color = "red", size = 1) +
+        stat_summary(fun.data = median_hilow, geom = "line", color = "green", size = 1) +
         labs(title = "Scale-Location Plot", x = "Fitted Values", y = "Sqrt(|Standardized Residuals|)") +
         theme_minimal()
       
