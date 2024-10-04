@@ -30,6 +30,33 @@ summary() prints a summary of the regression model, including the model formula,
 
 ```{r setup}
 model$summary()
+```
 
+```{r setup}
+model$plottt()
+```
+
+coef() Returns the estimated coefficients of the linear regression model as a named vector for easier interpretation.
+
+```{r setup}
+model$coef()
+```
+
+printtt() outputs the coefficients of the model in a user-friendly format
+
+```{r setup}
+model$printtt()
+```
+
+resid() returns the residuals of the linear regression model, which represent the differences between the observed and fitted values.
+
+```{r setup}
+model$resid()
+```
+
+pred() returns the fitted values (predicted values) from the linear regression model, based on the input data.
+
+```{r setup}
+model$pred()
 ```
 
