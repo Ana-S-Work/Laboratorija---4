@@ -178,4 +178,11 @@ LinRegRC <- setRefClass(
   )
 )
 
-
+data(iris)
+model <- LinRegRC$new(formula = Petal.Length ~ Species, data = iris)
+# model$printtt()
+# model$resid()
+# model$pred()
+# model$coef()
+# model$summary()
+ model$plottt()
