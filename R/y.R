@@ -151,7 +151,7 @@ LinRegRC <- setRefClass(
         Residuals = as.vector(residuals)
       ), aes(x = Fitted, y = Residuals)) +
         geom_point(color = "blue") +
-        stat_summary(fun = median, geom = "line", color = "red", aes(group = Fitted)) +  # Group by Fitted values  +
+        stat_summary(fun = median, geom = "line", color = "red") +  # Group by Fitted values  +
         #geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
         labs(title = "Residuals vs Fitted Values", x = "Fitted Values", y = "Residuals") +
         theme_minimal()
@@ -162,7 +162,7 @@ LinRegRC <- setRefClass(
         Std_Residuals = sqrt(abs(standardized_residuals))
       ), aes(x = Fitted, y = Std_Residuals)) +
         geom_point(color = "blue") +
-        stat_summary(fun = median, geom = "line", color = "red", aes(group = Fitted))  +
+        stat_summary(fun = median, geom = "line", color = "red")  +
         labs(title = "Scale-Location Plot", x = "Fitted Values", y = "Sqrt(|Standardized Residuals|)") +
         theme_minimal()
       
