@@ -142,33 +142,33 @@ LinRegRC <- setRefClass(
     },
     # Method to plot residuals vs fitted and scale-location plot
     plottt = function() {
-  # Calculate standardized residuals
-  standardized_residuals <- residuals / sqrt(residual_variance)
-  
-  # Residuals vs Fitted values plot
-  residuals_vs_fitted_plot <- ggplot(data = data.frame(
-    Fitted = as.vector(fitted_values),
-    Residuals = as.vector(residuals)
-  ), aes(x = Fitted, y = Residuals)) +
-    geom_point(color = "blue") +
-    geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
-    labs(title = "Residuals vs Fitted Values", x = "Fitted Values", y = "Residuals") +
-    theme_minimal()
-  
-  # Scale-Location plot (standardized residuals vs fitted values)
-  scale_location_plot <- ggplot(data = data.frame(
-    Fitted = as.vector(fitted_values),
-    Std_Residuals = sqrt(abs(standardized_residuals))
-  ), aes(x = Fitted, y = Std_Residuals)) +
-    geom_point(color = "blue") +
-    stat_summary(fun = median, geom = "line", color = "red", size = 1) +
-    stat_summary(fun.data = median_hilow, geom = "line", color = "green", size = 1) +
-    labs(title = "Scale-Location Plot", x = "Fitted Values", y = "Sqrt(|Standardized Residuals|)") +
-    theme_minimal()
-  
-  # Display both plots
-  print(residuals_vs_fitted_plot)
-  print(scale_location_plot)
+      # Calculate standardized residuals
+      standardized_residuals <- residuals / sqrt(residual_variance)
+      
+      # Residuals vs Fitted values plot
+      residuals_vs_fitted_plot <- ggplot(data = data.frame(
+        Fitted = as.vector(fitted_values),
+        Residuals = as.vector(residuals)
+      ), aes(x = Fitted, y = Residuals)) +
+        geom_point(color = "blue") +
+        stat_summary(fun = median, geom = "line", color = "red", aes(group = Fitted)) +  # Group by Fitted values  +
+        #geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+        labs(title = "Residuals vs Fitted Values", x = "Fitted Values", y = "Residuals") +
+        theme_minimal()
+      
+      # Scale-Location plot (standardized residuals vs fitted values)
+      scale_location_plot <- ggplot(data = data.frame(
+        Fitted = as.vector(fitted_values),
+        Std_Residuals = sqrt(abs(standardized_residuals))
+      ), aes(x = Fitted, y = Std_Residuals)) +
+        geom_point(color = "blue") +
+        stat_summary(fun = median, geom = "line", color = "red", aes(group = Fitted))  +
+        labs(title = "Scale-Location Plot", x = "Fitted Values", y = "Sqrt(|Standardized Residuals|)") +
+        theme_minimal()
+      
+      # Display both plots
+      print(residuals_vs_fitted_plot)
+      print(scale_location_plot)
 }
 ,
     coef = function() {
