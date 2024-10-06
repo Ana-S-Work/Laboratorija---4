@@ -129,27 +129,27 @@ LinRegRC <- setRefClass(
     },
     # Method to plot residuals vs fitted and scale-location plot
     plottt = function() {
-      # Calculate standardized residuals
-      standardized_residuals <- residuals / sqrt(residual_variance)
+      # Access the class fields directly using .self
+      data <<- .self$data
+      fitted_values <<- .self$fitted_values
+      residuals <<- .self$residuals
+      
+      # Calculate standardized residuals (if needed later)
+      standardized_residuals <- residuals / sqrt(.self$residual_variance)
       
       # Residuals vs Fitted values plot
-      residuals_vs_fitted_plot <- ggplot(data = data.frame(
-        Fitted = as.vector(fitted_values),
-        Residuals = as.vector(residuals)
-      ), aes(x = Fitted, y = Residuals)) +
+      residuals_vs_fitted_plot <- ggplot(data, aes(x = round(fitted_values, 3), y = round(residuals, 3))) +
         geom_point(color = "blue") +
-        geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+        # Adding a median line
+        stat_summary(fun = median, color = "red", geom = "path", size = 1) +
         labs(title = "Residuals vs Fitted Values", x = "Fitted Values", y = "Residuals") +
         theme_minimal()
       
       # Scale-Location plot (standardized residuals vs fitted values)
-      scale_location_plot <- ggplot(data = data.frame(
-        Fitted = as.vector(fitted_values),
-        Std_Residuals = sqrt(abs(standardized_residuals))
-      ), aes(x = Fitted, y = Std_Residuals)) +
+      scale_location_plot <- ggplot(data, aes(x = round(fitted_values, 3), y = round(sqrt(residuals^2), 3))) +
         geom_point(color = "blue") +
-        geom_smooth(se = FALSE, color = "red", method = "loess") +
-        labs(title = "Scale-Location Plot", x = "Fitted Values", y = "Sqrt(|Standardized Residuals|)") +
+        stat_summary(fun = median, color = "red", geom = "path", size = 1) +
+        labs(title = "Scale-Location Plot", x = "Fitted Values", y = "Sqrt(|Residuals^2|)") +
         theme_minimal()
       
       # Display both plots
@@ -178,11 +178,4 @@ LinRegRC <- setRefClass(
   )
 )
 
-data(iris)
-model <- LinRegRC$new(formula = Petal.Length ~ Species, data = iris)
-# model$printtt()
-# model$resid()
-# model$pred()
-# model$coef()
-# model$summary()
- model$plottt()
+
