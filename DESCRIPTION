@@ -7,3 +7,13 @@ Author: c(person("Sofia", email="jknsfjs"), person("Ana", email="hbsdjh"))
 Maintainer: Who to complain to <sofia16@live.se>
 Description: More about what it does (maybe more than one line)
 License: MIT + file LICENSE
+RoxygenNote: 7.3.2
+Encoding: UTF-8
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Imports:
+    ggplot2
+VignetteBuilder: knitr

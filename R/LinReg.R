@@ -1,8 +1,6 @@
 
-#' LinRegRC: A Reference Class for Multiple Linear Regression
-#'
-#' This class provides a reference implementation of multiple linear regression.
-#' It contains methods for fitting the model, calculating residuals, and plotting.
+
+#' @title LinRegRC: A Reference Class for Multiple Linear Regression. This class provides a reference implementation of multiple linear regression.It contains methods for fitting the model, calculating residuals, and plotting.
 #'
 #' @field formula A formula object for the model.
 #' @field data A data frame used for the regression analysis.
@@ -16,19 +14,24 @@
 #' 
 #' @return An object of class `LinRegRC`.
 #' 
+#' @import ggplot2
 #' @examples
 #' # Create a new LinRegRC object
 #' model <- LinRegRC$new(Petal.Length ~ Species, data = iris)
 #' model$summary()
 #'
-#' @export
+#' @name LinRegRC
+#' @export LinRegRC
 
 library(ggplot2)
+
+
 
 # Define the RC class for multiple linear regression
 LinRegRC <- setRefClass(
   "LinRegRC",  # Class name
   fields = list(
+    data_name = "character",
     formula = "formula",      # Formula object for the model
     data = "data.frame",      # Data used for the regression
     coefficients = "matrix",  # Coefficients (beta estimates)
@@ -44,6 +47,7 @@ LinRegRC <- setRefClass(
   methods = list(
     # Initialize method (called when a new object is created)
     initialize = function(formula, data) {
+      data_name <<- deparse(substitute(data))
       formula <<- formula
       data <<- data
       .self$fit_model()  # Call the fit_model method to fit the model
@@ -87,36 +91,65 @@ LinRegRC <- setRefClass(
     
     # Method to print the summary of the regression model
     summary = function() {
+      
+      # Print the call (formula)
       cat("Call:\n")
       print(formula)
+      
+      
+      coef_table <- cbind(
+        Estimate = as.vector(coefficients),
+        `Std. Error` = sqrt(diag(var_coefficients)),
+        `t-value` = as.vector(t_values),
+        `p-value` = as.vector(p_values)
+      )
+      
+      # Function to add stars for significance levels
+      significance_stars <- function(p_value) {
+        ifelse(p_value < 0.001, "***",
+               ifelse(p_value < 0.01, "**",
+                      ifelse(p_value < 0.05, "*", "")
+               )
+        )
+      }
+      
+      # Add stars for p-values in the table
+      signif <- apply(coef_table[, "p-value", drop = FALSE], 1, significance_stars)
+      
+      coef_table_print <- cbind(coef_table, signif)
+      colnames(coef_table_print)[ncol(coef_table_print)] <- ""
+      
+      
+      # Print the coefficient table
       cat("\nCoefficients:\n")
-      coef_table <- cbind(Estimate = coefficients, "Std. Error" = sqrt(diag(var_coefficients)), "t-value" = t_values, "p-value" = p_values)
-      print(coef_table)
-      cat("\nResidual standard error:", sqrt(residual_variance), "on", df_residual, "degrees of freedom\n")
+      print(coef_table_print, quote = FALSE, right = TRUE)
+      
+      # Print residual standard error and degrees of freedom
+      cat("\nResidual standard error:", round(sqrt(residual_variance), 6), "on", df_residual, "degrees of freedom\n")
     },
     # Method to plot residuals vs fitted and scale-location plot
     plottt = function() {
-      # Calculate standardized residuals
-      standardized_residuals <- residuals / sqrt(residual_variance)
+      # Access the class fields directly using .self
+      data <<- .self$data
+      fitted_values <<- .self$fitted_values
+      residuals <<- .self$residuals
+      
+      # Calculate standardized residuals (if needed later)
+      standardized_residuals <- residuals / sqrt(.self$residual_variance)
       
       # Residuals vs Fitted values plot
-      residuals_vs_fitted_plot <- ggplot(data = data.frame(
-        Fitted = as.vector(fitted_values),
-        Residuals = as.vector(residuals)
-      ), aes(x = Fitted, y = Residuals)) +
+      residuals_vs_fitted_plot <- ggplot(data, aes(x = round(fitted_values, 3), y = round(residuals, 3))) +
         geom_point(color = "blue") +
-        geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+        # Adding a median line
+        stat_summary(fun = median, color = "red", geom = "path", size = 1) +
         labs(title = "Residuals vs Fitted Values", x = "Fitted Values", y = "Residuals") +
         theme_minimal()
       
       # Scale-Location plot (standardized residuals vs fitted values)
-      scale_location_plot <- ggplot(data = data.frame(
-        Fitted = as.vector(fitted_values),
-        Std_Residuals = sqrt(abs(standardized_residuals))
-      ), aes(x = Fitted, y = Std_Residuals)) +
+      scale_location_plot <- ggplot(data, aes(x = round(fitted_values, 3), y = round(sqrt(residuals^2), 3))) +
         geom_point(color = "blue") +
-        geom_smooth(se = FALSE, color = "red", method = "loess") +
-        labs(title = "Scale-Location Plot", x = "Fitted Values", y = "Sqrt(|Standardized Residuals|)") +
+        stat_summary(fun = median, color = "red", geom = "path", size = 1) +
+        labs(title = "Scale-Location Plot", x = "Fitted Values", y = "Sqrt(|Residuals^2|)") +
         theme_minimal()
       
       # Display both plots
@@ -130,33 +163,19 @@ LinRegRC <- setRefClass(
       return(coefs)
     },
     printtt = function() {
-      cat("Call:\n")
-      print(formula)
-      cat("Coefficients:\n")
+      cat(paste0("LinRegRC(formula = ",deparse(formula), ", data = ", data_name, ")")) 
+      cat("\n\nCoefficients:\n")
       print(coef())
     },
     resid = function(){
       return(residuals)
-    },
+    } ,
     
     # Method to predict new values based on new data
-    pred = function(newdata) {
-      X_new <- model.matrix(formula, newdata)  # Create design matrix for new data
-      return(X_new %*% coefficients)           # Return predicted values
+    pred = function() {
+      return(fitted_values)           # Return predicted values
     }
   )
 )
-
-
-
-data(iris)
-model <- LinRegRC$new(formula = Petal.Length ~ Species, data = iris)
-model$printtt()
-model$resid()
-model$pred()
-model$coef()
-model$summary()
-
-print(iris)
 
 

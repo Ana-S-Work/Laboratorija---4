@@ -1,0 +1,62 @@
+---
+title: "introduction to Linreg model"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{introduction to Linreg model}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This is a vignette for our lab 4 for a linnear regression model we have created as an R class. We will demonstrate our model with the iris dataset.
+
+This is how you create an instance of a linreg model from our class.
+Fit model which is called when an instance of the LinReg class is created will fit the linear regression model using the provided formula and data. It computes the coefficients, fitted values, residuals, variance-covariance matrix of coefficients, and calculates associated statistics such as degrees of freedom, standard errors, t-values, and p-values.
+
+```{r setup}
+library(lab4)
+library(ggplot2)
+data(iris)
+model <- LinRegRC$new(formula = Petal.Length ~ Species, data = iris)
+```
+
+summary() prints a summary of the regression model, including the model formula, coefficients (estimates, standard errors, t-values, and p-values), and residual standard error along with degrees of freedom. Highlights statistical significance of coefficients using asterisks.
+
+```{r summary}
+model$summary()
+```
+
+```{r plottt}
+model$plottt()
+```
+
+coef() Returns the estimated coefficients of the linear regression model as a named vector for easier interpretation.
+
+```{r coef}
+model$coef()
+```
+
+printtt() outputs the coefficients of the model in a user-friendly format
+
+```{r printtt}
+model$printtt()
+```
+
+resid() returns the residuals of the linear regression model, which represent the differences between the observed and fitted values.
+
+```{r resid}
+model$resid()
+```
+
+pred() returns the fitted values (predicted values) from the linear regression model, based on the input data.
+
+```{r pred}
+model$pred()
+```
+
