@@ -23,7 +23,7 @@ Fit model which is called when an instance of the LinReg class is created will f
 library(lab4)
 library(ggplot2)
 data(iris)
-model <- LinRegRC$new(formula = Petal.Length ~ Species, data = iris)
+model <- linreg$new(formula = Petal.Length ~ Species, data = iris)
 ```
 
 summary() prints a summary of the regression model, including the model formula, coefficients (estimates, standard errors, t-values, and p-values), and residual standard error along with degrees of freedom. Highlights statistical significance of coefficients using asterisks.
@@ -33,7 +33,7 @@ model$summary()
 ```
 
 ```{r plottt}
-model$plottt()
+model$plot()
 ```
 
 coef() Returns the estimated coefficients of the linear regression model as a named vector for easier interpretation.
@@ -42,10 +42,10 @@ coef() Returns the estimated coefficients of the linear regression model as a na
 model$coef()
 ```
 
-printtt() outputs the coefficients of the model in a user-friendly format
+print() outputs the coefficients of the model in a user-friendly format
 
 ```{r printtt}
-model$printtt()
+model$print()
 ```
 
 resid() returns the residuals of the linear regression model, which represent the differences between the observed and fitted values.
