@@ -1,6 +1,6 @@
 
 
-#' @title LinRegRC: A Reference Class for Multiple Linear Regression. This class provides a reference implementation of multiple linear regression.It contains methods for fitting the model, calculating residuals, and plotting.
+#' @title linreg: A Reference Class for Multiple Linear Regression. This class provides a reference implementation of multiple linear regression.It contains methods for fitting the model, calculating residuals, and plotting.
 #'
 #' @field formula A formula object for the model.
 #' @field data A data frame used for the regression analysis.
@@ -12,24 +12,24 @@
 #' @field df_residual Degrees of freedom for residuals.
 #' @field residual_variance A numeric value representing the variance of the residuals.
 #' 
-#' @return An object of class `LinRegRC`.
+#' @return An object of class `linreg`.
 #' 
 #' @import ggplot2
 #' @examples
-#' # Create a new LinRegRC object
-#' model <- LinRegRC$new(Petal.Length ~ Species, data = iris)
+#' # Create a new linreg object
+#' model <- linreg$new(Petal.Length ~ Species, data = iris)
 #' model$summary()
 #'
-#' @name LinRegRC
-#' @export LinRegRC
+#' @name linreg
+#' @export linreg
 
 library(ggplot2)
 
 
 
 # Define the RC class for multiple linear regression
-LinRegRC <- setRefClass(
-  "LinRegRC",  # Class name
+linreg <- setRefClass(
+  "linreg",  # Class name
   fields = list(
     data_name = "character",
     formula = "formula",      # Formula object for the model
@@ -94,7 +94,7 @@ LinRegRC <- setRefClass(
       
       # Print the call (formula)
       cat("Call:\n")
-      print(formula)
+      base::print(formula)
       
       
       coef_table <- cbind(
@@ -122,13 +122,13 @@ LinRegRC <- setRefClass(
       
       # Print the coefficient table
       cat("\nCoefficients:\n")
-      print(coef_table_print, quote = FALSE, right = TRUE)
+      base::print(coef_table_print, quote = FALSE, right = TRUE)
       
       # Print residual standard error and degrees of freedom
       cat("\nResidual standard error:", round(sqrt(residual_variance), 6), "on", df_residual, "degrees of freedom\n")
     },
     # Method to plot residuals vs fitted and scale-location plot
-    plottt = function() {
+    plot = function() {
       # Access the class fields directly using .self
       data <<- .self$data
       fitted_values <<- .self$fitted_values
@@ -153,8 +153,8 @@ LinRegRC <- setRefClass(
         theme_minimal()
       
       # Display both plots
-      print(residuals_vs_fitted_plot)
-      print(scale_location_plot)
+      base::print(residuals_vs_fitted_plot)
+      base::print(scale_location_plot)
     },
     coef = function() {
       # Create a named vector for more precise control over print formatting
@@ -162,10 +162,10 @@ LinRegRC <- setRefClass(
       coefs <- setNames(as.vector(coefficients), coef_names)
       return(coefs)
     },
-    printtt = function() {
-      cat(paste0("LinRegRC(formula = ",deparse(formula), ", data = ", data_name, ")")) 
+    print = function() {
+      cat(paste0("linreg(formula = ",deparse(formula), ", data = ", data_name, ")")) 
       cat("\n\nCoefficients:\n")
-      print(coef())
+      base::print(coef())
     },
     resid = function(){
       return(residuals)
